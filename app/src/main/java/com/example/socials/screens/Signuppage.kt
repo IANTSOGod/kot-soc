@@ -39,12 +39,12 @@ fun SignupPage(navController: NavController) {
     val scrollstate = rememberScrollState()
 
     val view = LocalView.current
-    var imeHeightPx by remember { mutableIntStateOf(0)  }
+    var imeHeightPx by remember { mutableIntStateOf(0) }
 
     val imeHeightDp = with(LocalDensity.current) { imeHeightPx.toDp() }
 
     DisposableEffect(view) {
-        val listener = ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
             val imeHeight = insets.getInsets(Type.ime()).bottom
             imeHeightPx = imeHeight
             insets
@@ -86,7 +86,7 @@ fun SignupPage(navController: NavController) {
                     Text("Password")
                     InputPassword(password = password) { password = it }
                 }
-                PButton(label = "Create account", type = "primary") { }
+                PButton(label = "Create account", type = "primary") { println("fname: $fname lname:$lname email:$email password:$password")}
                 PButton(label = "Go back", type = "outline") { navController.navigate("login") }
             }
         }

@@ -3,16 +3,20 @@ package com.example.socials.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,12 +26,17 @@ import androidx.navigation.NavController
 import com.example.socials.components.Input
 import com.example.socials.components.InputPassword
 import com.example.socials.components.PButton
+import com.example.socials.services.login
+import com.example.socials.types.LoginResult
+import kotlinx.coroutines.launch
 
 @Composable
 fun Loginpage(navController: NavController) {
     var email by remember { mutableStateOf("") }
     var mdp by remember { mutableStateOf("") }
     val scrollstate = rememberScrollState()
+
+    val corountinescope = rememberCoroutineScope();
 
     Scaffold { innerPadding ->
         Box(
@@ -48,11 +57,28 @@ fun Loginpage(navController: NavController) {
                     Text("Email")
                     Input(field = email, placeholder = "Enter your email here") { email = it }
                 }
-                Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                    Text("Password")
+                Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(50.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text("Password")
+                        TextButton(
+                            onClick = { navController.navigate("forgotpwd") },
+                        ) { Text("Mot de passe oublié ?") }
+                    }
                     InputPassword(password = mdp) { mdp = it }
                 }
-                PButton(label = "Log in", type = "primary") { println("$email $mdp") }
+                PButton(
+                    label = "Log in",
+                    type = "primary"
+                ) { corountinescope.launch {
+                    when (val result=login(email=email, password = mdp)){
+                        is LoginResult.Ok->navController.navigate("forgotpwd")
+                        is LoginResult.Bad->println(result.data.message)
+                        is LoginResult.Err->println(result.data.message)
+                    }
+                } }
                 PButton(label = "Sign up", type = "outline") { navController.navigate("signup") }
             }
         }

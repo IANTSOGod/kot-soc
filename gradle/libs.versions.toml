@@ -12,6 +12,11 @@ navigationCommon = "2.9.3"
 navigationCompose = "2.9.3"
 animationCoreLint = "1.8.3"
 ktorClientCore = "3.2.3"
+ktorClientCio = "3.2.0"
+ktorClientJson = "3.2.0"
+ktorClientSerialization = "3.2.0"
+ktorSerializationKotlinxJson = "3.2.0"
+ktorClientContentNegotiation = "3.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,6 +37,11 @@ androidx-navigation-common = { group = "androidx.navigation", name = "navigation
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-animation-core-lint = { group = "androidx.compose.animation", name = "animation-core-lint", version.ref = "animationCoreLint" }
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktorClientCore" }
+ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktorClientCore" }
+ktor-client-json = { group = "io.ktor", name = "ktor-client-json", version.ref = "ktorClientJson" }
+ktor-client-serialization = { group = "io.ktor", name = "ktor-client-serialization", version.ref = "ktorClientSerialization" }
+ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktorSerializationKotlinxJson" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktorClientContentNegotiation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
