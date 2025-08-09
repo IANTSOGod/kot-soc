@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.socials.components.InputEmail
+import com.example.socials.components.Input
 import com.example.socials.components.InputPassword
 import com.example.socials.components.PButton
 
@@ -46,14 +46,14 @@ fun Loginpage(navController: NavController) {
                 Text("Login", fontSize = 20.sp)
                 Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
                     Text("Email")
-                    InputEmail(email = email) { email = it }
+                    Input(field = email, placeholder = "Enter your email here") { email = it }
                 }
                 Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
                     Text("Password")
                     InputPassword(password = mdp) { mdp = it }
                 }
-                PButton(label = "Log in") { }
-                PButton(label = "Sign up") { navController.navigate("signup") }
+                PButton(label = "Log in", type = "primary") { println("$email $mdp") }
+                PButton(label = "Sign up", type = "outline") { navController.navigate("signup") }
             }
         }
     }

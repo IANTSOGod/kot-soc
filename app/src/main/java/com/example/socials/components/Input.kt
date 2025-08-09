@@ -9,11 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun InputEmail(email: String, onChange: (String) -> Unit) {
+fun Input(field: String,placeholder: String, onChange: (String) -> Unit) {
     OutlinedTextField(
-        value = email,
+        value = field,
         onValueChange = onChange,
-        placeholder = { Text("Enter your email here") },
+        placeholder = { Text(placeholder) },
         modifier = Modifier.width(300.dp),
         shape = RoundedCornerShape(10.dp),
         singleLine = true,
