@@ -4,10 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,9 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.socials.components.Input
 import com.example.socials.components.PButton
+import com.example.socials.components.StepCircle
 
 @Composable
 fun ForgotPassword(navController: NavController) {
+
+    var index by remember { mutableStateOf(0) }
+    val textlist = listOf("Recherce de compte", "Envoi de code", "Vérification de code")
 
     Scaffold { innerPadding ->
         Box(
@@ -34,22 +40,56 @@ fun ForgotPassword(navController: NavController) {
                 .padding(innerPadding),
             contentAlignment = Alignment.Center
         ) {
-            GetComponents(navController)
+            Column(
+                modifier = Modifier
+                    .padding(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    StepCircle(index + 1)
+                    Text(textlist[index])
+                }
+                Box(modifier = Modifier.height(30.dp))
+                GetComponents(index)
+                Box(modifier = Modifier.height(20.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
+                    if (index != 0) {
+                        Button(
+                            onClick = { index -= 1 },
+                            modifier = Modifier
+                                .height(40.dp)
+                        ) {
+                            Text("Previous")
+                        }
+                    }
+                    if (index < textlist.size - 1) {
+                        Button(
+                            onClick = { index += 1 },
+                            modifier = Modifier
+                                .height(40.dp)
+                        ) {
+                            Text("Continue")
+                        }
+                    }
+
+                }
+            }
         }
     }
 }
 
 @Composable
-fun GetComponents(navController: NavController){
+fun GetComponents(index: Int) {
     var email by remember { mutableStateOf("") }
-    var index by remember { mutableIntStateOf(0) }
 
-    if(index==0){
+    if (index == 0) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            Text("Recherche de compte")
             Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
                 Text("Email")
                 Input(field = email, placeholder = "Enter your email here") { email = it }
@@ -63,11 +103,8 @@ fun GetComponents(navController: NavController){
             ) {
                 Text("Entrer l'email de votre compte", color = Color.White)
             }
-            PButton(label = "Continuer", type = "primary") { index=index+1 }
-            PButton(label = "Cancel", type = "outline") { navController.navigate("login") }
         }
-    }
-    else if(index==1){
+    } else if (index == 1) {
         Text("Envoi de code")
     }
 }
