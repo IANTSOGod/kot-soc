@@ -1,5 +1,6 @@
 package com.example.socials.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,10 +35,18 @@ import kotlinx.coroutines.launch
 fun Loginpage(navController: NavController) {
     var email by remember { mutableStateOf("") }
     var mdp by remember { mutableStateOf("") }
+    var state by remember { mutableStateOf("idle") }
+    var error_message by remember { mutableStateOf("") }
     val scrollstate = rememberScrollState()
 
     val corountinescope = rememberCoroutineScope();
 
+    LaunchedEffect(error_message) {
+        if (error_message != "") {
+            Toast.makeText(navController.context, error_message, Toast.LENGTH_SHORT).show()
+            error_message=""
+        }
+    }
     Scaffold { innerPadding ->
         Box(
             modifier = Modifier
@@ -70,15 +79,29 @@ fun Loginpage(navController: NavController) {
                     InputPassword(password = mdp) { mdp = it }
                 }
                 PButton(
-                    label = "Log in",
+                    label = if(state=="loading") "Loading.." else "Login",
                     type = "primary"
-                ) { corountinescope.launch {
-                    when (val result=login(email=email, password = mdp)){
-                        is LoginResult.Ok->navController.navigate("forgotpwd")
-                        is LoginResult.Bad->println(result.data.message)
-                        is LoginResult.Err->println(result.data.message)
+                ) {
+                    corountinescope.launch {
+                        state="loading"
+                        when (val result = login(email = email, password = mdp)) {
+                            is LoginResult.Ok -> {
+                                state="success"
+                                navController.navigate("forgotpwd")
+                            }
+                            is LoginResult.Bad -> {
+                                state="bad_request"
+                                var mess=""
+                                result.data.message.map { data -> mess="$mess $data " }
+                                error_message=mess
+                            }
+                            is LoginResult.Err -> {
+                                state="error_mess"
+                                error_message=result.data.message
+                            }
+                        }
                     }
-                } }
+                }
                 PButton(label = "Sign up", type = "outline") { navController.navigate("signup") }
             }
         }

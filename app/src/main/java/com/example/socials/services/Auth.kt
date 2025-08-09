@@ -20,7 +20,7 @@ suspend fun login(email: String, password: String): LoginResult {
             json()
         }
     }
-    val response = client.post("http://10.42.0.1:3000/auth/login") {
+    val response = client.post("https://2799381647f0.ngrok-free.app/auth/login") {
         contentType(io.ktor.http.ContentType.Application.Json)
         setBody(
             Userlogin(
@@ -31,15 +31,12 @@ suspend fun login(email: String, password: String): LoginResult {
     }
     if (response.status == HttpStatusCode.Created) {
         val result = response.body<ResponseOkLogin>()
-        println("${result.accesstoken} et ${result.refreshtoken}")
         return LoginResult.Ok(result)
     } else if (response.status == HttpStatusCode.BadRequest) {
         val result = response.body<ResponseBadRequest>()
-        println(result.message[0])
         return LoginResult.Bad(result)
     }else{
         val result=response.body<ResponseErrorMessage>()
-        println(result.message)
         return LoginResult.Err(result)
     }
 }
