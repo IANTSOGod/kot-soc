@@ -1,5 +1,6 @@
 package com.example.socials.screens
 
+import android.widget.Toast
 import androidx.core.view.WindowInsetsCompat.Type
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
@@ -39,6 +41,7 @@ fun SignupPage(navController: NavController) {
     var lname by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var error_message by remember { mutableStateOf("") }
 
     val coroutinescope = rememberCoroutineScope()
     val scrollstate = rememberScrollState()
@@ -56,6 +59,13 @@ fun SignupPage(navController: NavController) {
         }
         onDispose {
             ViewCompat.setOnApplyWindowInsetsListener(view, null)
+        }
+    }
+
+    LaunchedEffect(error_message) {
+        if (error_message != "") {
+            Toast.makeText(navController.context, error_message, Toast.LENGTH_SHORT).show()
+            error_message = ""
         }
     }
 
@@ -104,11 +114,13 @@ fun SignupPage(navController: NavController) {
                             }
 
                             is SignupResult.Bad -> {
-                                result.data.message.map { message -> println(message) }
+                                var mess = ""
+                                result.data.message.map { message -> mess = "$mess $message" }
+                                error_message = mess
                             }
 
                             is SignupResult.Err -> {
-                                println(result.data.message)
+                                error_message = result.data.message
                             }
                         }
                     }

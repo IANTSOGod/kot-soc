@@ -32,7 +32,9 @@ suspend fun login(email: String, password: String): LoginResult {
             )
         )
     }
+
     client.close()
+
     when (response.status) {
         HttpStatusCode.Created -> {
             val result = response.body<ResponseOkLogin>()
@@ -67,7 +69,9 @@ suspend fun signup(fname: String, lname: String, email: String, password: String
             )
         )
     }
+
     client.close()
+
     when (response.status) {
         HttpStatusCode.Created -> {
             val result = response.body<ResponseOkSignup>()
