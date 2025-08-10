@@ -23,7 +23,7 @@ suspend fun login(email: String, password: String): LoginResult {
             json()
         }
     }
-    val response = client.post("https://7870807b7326.ngrok-free.app/auth/login") {
+    val response = client.post("https://bc37a6e0b4e7.ngrok-free.app/auth/login") {
         contentType(io.ktor.http.ContentType.Application.Json)
         setBody(
             Userlogin(
@@ -32,7 +32,7 @@ suspend fun login(email: String, password: String): LoginResult {
             )
         )
     }
-
+    client.close()
     when (response.status) {
         HttpStatusCode.Created -> {
             val result = response.body<ResponseOkLogin>()
@@ -57,7 +57,7 @@ suspend fun signup(fname: String, lname: String, email: String, password: String
             json()
         }
     }
-    val response = client.post("https://7870807b7326.ngrok-free.app/auth/register/EAP") {
+    val response = client.post("https://bc37a6e0b4e7.ngrok-free.app/auth/register/EAP") {
         contentType(io.ktor.http.ContentType.Application.Json)
         setBody(
             Usersignup(
@@ -67,6 +67,7 @@ suspend fun signup(fname: String, lname: String, email: String, password: String
             )
         )
     }
+    client.close()
     when (response.status) {
         HttpStatusCode.Created -> {
             val result = response.body<ResponseOkSignup>()
