@@ -13,6 +13,9 @@ import com.example.socials.types.Userlogin
 import com.example.socials.types.ResponseOkLogin
 import com.example.socials.types.ResponseBadRequest
 import com.example.socials.types.ResponseErrorMessage
+import com.example.socials.types.ResponseOkSignup
+import com.example.socials.types.SignupResult
+import com.example.socials.types.Usersignup
 
 suspend fun login(email: String, password: String): LoginResult {
     val client = HttpClient(CIO) {
@@ -20,7 +23,7 @@ suspend fun login(email: String, password: String): LoginResult {
             json()
         }
     }
-    val response = client.post("https://2799381647f0.ngrok-free.app/auth/login") {
+    val response = client.post("https://7870807b7326.ngrok-free.app/auth/login") {
         contentType(io.ktor.http.ContentType.Application.Json)
         setBody(
             Userlogin(
@@ -29,14 +32,55 @@ suspend fun login(email: String, password: String): LoginResult {
             )
         )
     }
-    if (response.status == HttpStatusCode.Created) {
-        val result = response.body<ResponseOkLogin>()
-        return LoginResult.Ok(result)
-    } else if (response.status == HttpStatusCode.BadRequest) {
-        val result = response.body<ResponseBadRequest>()
-        return LoginResult.Bad(result)
-    }else{
-        val result=response.body<ResponseErrorMessage>()
-        return LoginResult.Err(result)
+
+    when (response.status) {
+        HttpStatusCode.Created -> {
+            val result = response.body<ResponseOkLogin>()
+            return LoginResult.Ok(result)
+        }
+
+        HttpStatusCode.BadRequest -> {
+            val result = response.body<ResponseBadRequest>()
+            return LoginResult.Bad(result)
+        }
+
+        else -> {
+            val result = response.body<ResponseErrorMessage>()
+            return LoginResult.Err(result)
+        }
+    }
+}
+
+suspend fun signup(fname: String, lname: String, email: String, password: String): SignupResult {
+    val client = HttpClient(CIO) {
+        install(ContentNegotiation) {
+            json()
+        }
+    }
+    val response = client.post("https://7870807b7326.ngrok-free.app/auth/register/EAP") {
+        contentType(io.ktor.http.ContentType.Application.Json)
+        setBody(
+            Usersignup(
+                username = "$fname $lname",
+                email = email,
+                password = password
+            )
+        )
+    }
+    when (response.status) {
+        HttpStatusCode.Created -> {
+            val result = response.body<ResponseOkSignup>()
+            return SignupResult.Ok(result)
+        }
+
+        HttpStatusCode.BadRequest -> {
+            val result = response.body<ResponseBadRequest>()
+            return SignupResult.Bad(result)
+        }
+
+        else -> {
+            val result = response.body<ResponseErrorMessage>()
+            return SignupResult.Err(result)
+        }
     }
 }

@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +29,9 @@ import androidx.navigation.NavController
 import com.example.socials.components.Input
 import com.example.socials.components.InputPassword
 import com.example.socials.components.PButton
+import com.example.socials.services.signup
+import com.example.socials.types.SignupResult
+import kotlinx.coroutines.launch
 
 @Composable
 fun SignupPage(navController: NavController) {
@@ -36,6 +40,7 @@ fun SignupPage(navController: NavController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
+    val coroutinescope = rememberCoroutineScope()
     val scrollstate = rememberScrollState()
 
     val view = LocalView.current
@@ -86,7 +91,28 @@ fun SignupPage(navController: NavController) {
                     Text("Password")
                     InputPassword(password = password) { password = it }
                 }
-                PButton(label = "Create account", type = "primary") { println("fname: $fname lname:$lname email:$email password:$password")}
+                PButton(label = "Create account", type = "primary") {
+                    coroutinescope.launch {
+                        when (val result = signup(
+                            fname = fname,
+                            lname = lname,
+                            email = email,
+                            password = password
+                        )) {
+                            is SignupResult.Ok -> {
+                                println(result.data.email)
+                            }
+
+                            is SignupResult.Bad -> {
+                                result.data.message.map { message -> println(message) }
+                            }
+
+                            is SignupResult.Err -> {
+                                println(result.data.message)
+                            }
+                        }
+                    }
+                }
                 PButton(label = "Go back", type = "outline") { navController.navigate("login") }
             }
         }
