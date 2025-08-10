@@ -24,7 +24,7 @@ fun PButton(label: String, type: String, onClick: () -> Unit) {
                 .height(45.dp),
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Blue,
+                containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = Color.White,
             ),
         ) {

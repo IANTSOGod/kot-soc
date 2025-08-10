@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,12 +22,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.socials.components.ForgotStepper
 import com.example.socials.components.StepCircle
+import com.example.socials.ui.theme.SocialsTheme
 
 @Composable
 fun ForgotPassword(navController: NavController) {
 
     var index by remember { mutableIntStateOf(0) }
-    val textlist = listOf("Recherce de compte", "Vérification de code","Nouveau mdp")
+    val textlist = listOf("Recherce de compte", "Vérification de code", "Nouveau mdp")
 
     Scaffold { innerPadding ->
         Box(
@@ -69,10 +71,11 @@ fun ForgotPassword(navController: NavController) {
                             Text("Continue")
                         }
                     }
-                    if (index == textlist.size) {
+                    if (index == textlist.size - 1) {
                         Button(
                             onClick = { navController.navigate("login") },
-                            modifier = Modifier.height(40.dp)
+                            modifier = Modifier.height(40.dp),
+
                         ) {
                             Text("Finish")
                         }
