@@ -11,9 +11,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,8 +25,8 @@ import com.example.socials.components.StepCircle
 @Composable
 fun ForgotPassword(navController: NavController) {
 
-    var index by remember { mutableStateOf(0) }
-    val textlist = listOf("Recherce de compte", "Confirmation d'email", "Vérification de code")
+    var index by remember { mutableIntStateOf(0) }
+    val textlist = listOf("Recherce de compte", "Vérification de code","Nouveau mdp")
 
     Scaffold { innerPadding ->
         Box(
@@ -67,6 +67,14 @@ fun ForgotPassword(navController: NavController) {
                                 .height(40.dp)
                         ) {
                             Text("Continue")
+                        }
+                    }
+                    if (index == textlist.size) {
+                        Button(
+                            onClick = { navController.navigate("login") },
+                            modifier = Modifier.height(40.dp)
+                        ) {
+                            Text("Finish")
                         }
                     }
 

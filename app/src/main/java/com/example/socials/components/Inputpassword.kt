@@ -3,8 +3,8 @@ package com.example.socials.components
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -35,7 +35,7 @@ fun InputPassword(password: String, onPasswordChange: (String) -> Unit) {
         trailingIcon = {
             IconButton(onClick = { isshowed = !isshowed }) {
                 Icon(
-                    imageVector = if (isshowed) Icons.Default.Close else Icons.Default.Done,
+                    imageVector = if (isshowed) Icons.Default.VisibilityOff else Icons.Filled.Visibility,
                     contentDescription = null
                 )
             }

@@ -17,6 +17,7 @@ ktorClientJson = "3.2.0"
 ktorClientSerialization = "3.2.0"
 ktorSerializationKotlinxJson = "3.2.0"
 ktorClientContentNegotiation = "3.2.0"
+materialIconsExtended = "1.7.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -42,6 +43,7 @@ ktor-client-json = { group = "io.ktor", name = "ktor-client-json", version.ref =
 ktor-client-serialization = { group = "io.ktor", name = "ktor-client-serialization", version.ref = "ktorClientSerialization" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktorSerializationKotlinxJson" }
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktorClientContentNegotiation" }
+androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "materialIconsExtended" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

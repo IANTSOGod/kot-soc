@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.socials.screens.ForgotPassword
+import com.example.socials.screens.Homepage
 import com.example.socials.screens.Loginpage
 import com.example.socials.screens.SignupPage
 import com.example.socials.ui.theme.SocialsTheme
@@ -23,8 +24,9 @@ class MainActivity : ComponentActivity() {
                     val navcontroller = rememberNavController()
                     NavHost(navController = navcontroller, startDestination = "login") {
                         composable("login") { Loginpage(navcontroller) }
-                        composable("signup") { SignupPage( navcontroller) }
+                        composable("signup") { SignupPage(navcontroller) }
                         composable("forgotpwd") { ForgotPassword(navcontroller) }
+                        composable("home") { Homepage(navcontroller) }
                     }
                 }
             }
